@@ -37,3 +37,4 @@ CC=clang CXX=clang++ cmake \
   -DCLANG_ENABLE_ARCMT=OFF \
   ../llvm/
 cmake --build . --target clang-format
+strip bin/clang-format
