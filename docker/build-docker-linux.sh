@@ -19,5 +19,5 @@ docker build \
 
 # Create a temporary container and copy out binary
 container_id=$(docker create ${IMAGE_TAG})
-docker cp ${container_id}:/build/llvm-build/bin/clang-format ../bin
+docker cp ${container_id}:/build/llvm-build/bin/clang-format ../bin/clang-format-linux64
 docker rm ${container_id}
