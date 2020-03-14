@@ -4,7 +4,7 @@ BUILD_LOGS_DIR=build_logs
 IMAGE_TAG=clang-format-build
 
 if [ ! -f Dockerfile ]; then
-  echo "Unable to find Dockerfile. Run this script from docker directory."
+  echo "Unable to find Dockerfile. Run this script from build/linux directory."
   exit 1
 fi
 
@@ -19,5 +19,5 @@ docker build \
 
 # Create a temporary container and copy out binary
 container_id=$(docker create ${IMAGE_TAG})
-docker cp ${container_id}:/build/llvm-build/bin/clang-format ../bin/clang-format-linux64
+docker cp ${container_id}:/build/llvm-build/bin/clang-format ../../bin/clang-format-linux64
 docker rm ${container_id}
