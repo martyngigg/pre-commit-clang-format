@@ -1,7 +1,6 @@
 -   id: clang-format
     name: clang-format
     description: Format files with ClangFormat.
-    entry: ./bin/clang-format
+    entry: ./bin/clang-format-hook
     language: script
     files: \.(c|cc|cxx|cpp|h|tcc)$
-    args: ['-fallback-style=none', '-i']
