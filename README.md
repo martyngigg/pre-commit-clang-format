@@ -10,3 +10,5 @@
     hooks:
     -   id: clang-format
 ```
+
+The hook requires Python to be on the PATH.
