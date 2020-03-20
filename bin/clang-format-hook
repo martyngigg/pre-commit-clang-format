@@ -17,10 +17,12 @@ DESCRIPTION = '''
 Runs clang-format on the given file and exits with a non-zero code if any changes were made.
 '''
 
-if sys.platform == 'win32':
+if sys.platform.startswith('win32'):
     CLANG_FORMAT_EXE =  os.path.join(os.path.dirname(__file__), 'clang-format.exe')
-elif sys.patform == 'linux':
+elif sys.platform.startswith('linux'):
     CLANG_FORMAT_EXE =  os.path.join(os.path.dirname(__file__), 'clang-format-linux64')
+elif sys.platform.startswith('darwin'):
+    CLANG_FORMAT_EXE =  os.path.join(os.path.dirname(__file__), 'clang-format-darwin')
 else:
     raise RuntimeError('Unknown platform "{}"'.format(sys.platform))
 
