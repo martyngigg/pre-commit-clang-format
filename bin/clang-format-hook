@@ -43,7 +43,7 @@ def clang_format_all(filepaths):
     :return: True if file contents were in changed in any file, False otherwise
     """
     changed = map(clang_format, filepaths)
-    return any(filepaths)
+    return any(changed)
 
 
 def clang_format(filepath):
