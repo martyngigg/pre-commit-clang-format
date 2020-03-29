@@ -11,7 +11,7 @@ import os
 import subprocess
 import sys
 
-USAGE = 'clang-format-hook <file>'
+USAGE = 'clang-format-hook <file> [<file> ...]'
 
 DESCRIPTION = '''
 Runs clang-format on the given file and exits with a non-zero code if any changes were made.
@@ -29,36 +29,50 @@ else:
 
 def main():
     parser = argparse.ArgumentParser(usage=USAGE, description=DESCRIPTION)
-    parser.add_argument('file', help='File to run clang-format on.')
+    parser.add_argument('files', nargs='+',
+                        help='File to run clang-format on.')
     args = parser.parse_args()
 
     # return non-zero exit code of there were changes
-    return 1 if clang_format(args.file) else 0
+    return 1 if clang_format_all(args.files) else 0
+
+def clang_format_all(filepaths):
+    """
+    Clang format the given files and return True if contents in any were changed
+    :param filepaths: A list of strings giving paths to file to be formatted
+    :return: True if file contents were in changed in any file, False otherwise
+    """
+    changed = map(clang_format, filepaths)
+    return any(filepaths)
 
 
-def clang_format(filename):
+def clang_format(filepath):
     """
     Clang format the given file and return True if contents were changed
-    :param filename: Path to a file to format
+    :param filepath: Path to a file to format
     :return: True if file contents were changed, False otherwise
     """
     # read current contents of file and compare with formatted content
 
-    with open(filename, 'rb') as f:
+    with open(filepath, 'rb') as f:
         contents_orig = f.read()
 
-    contents_formatted = run_clang_format(filename)
+    contents_formatted = run_clang_format_exe(filepath)
     changed = (contents_formatted != contents_orig)
     if changed:
-        print("Fixing {}".format(filename))
-        with open(filename, 'wb') as fixed_file:
+        print("Fixing {}".format(filepath))
+        with open(filepath, 'wb') as fixed_file:
             fixed_file.write(contents_formatted)
 
     return changed
 
 
-def run_clang_format(filename):
-    p = subprocess.Popen([CLANG_FORMAT_EXE, '-fallback-style=None', filename],
+def run_clang_format_exe(filepath):
+    """
+    Runs the clang-format executable on the given filepath
+    :param filepath:
+    """
+    p = subprocess.Popen([CLANG_FORMAT_EXE, '-fallback-style=None', filepath],
                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = p.communicate()
     if p.returncode != 0:
