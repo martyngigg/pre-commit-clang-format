@@ -78,7 +78,7 @@ def run_clang_format_exe(filepath):
     if p.returncode != 0:
         raise RuntimeError(stderr)
 
-    return stdout.strip()
+    return stdout
 
 
 if __name__ == '__main__':
