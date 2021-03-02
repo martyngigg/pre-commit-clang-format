@@ -4,7 +4,6 @@ inputs:
   token:
     description: "Github API Token"
     required: true
-
 runs:
   steps:
     - name: Get PR branch

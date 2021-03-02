@@ -17,6 +17,10 @@ jobs:
           cd build/linux
           ./build-docker-linux.sh
 
+      - name: Commit build to branch
+        if: github.ref != 'refs/heads/master'
+        uses: ./.github/actions/commit-executables
+
   update-windows:
     name: Update Windows
     runs-on: windows-2019
