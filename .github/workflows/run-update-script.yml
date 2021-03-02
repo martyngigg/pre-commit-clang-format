@@ -14,7 +14,8 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install moby-engine moby-cli containerd.io -y
-          ./build/linux/build-docker-linux.sh
+          cd build/linux
+          ./build-docker-linux.sh
 
   update-windows:
     name: Update Windows
