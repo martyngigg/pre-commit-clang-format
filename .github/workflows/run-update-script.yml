@@ -1,0 +1,39 @@
+name: Update Pre-Commit
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  update-linux:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'Add executable for')"
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Update clang format
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+          ./build/linux/build-docker-linux.sh
+
+  update-windows:
+    name: Update Windows
+    runs-on: windows-2019
+    if: "!contains(github.event.head_commit.message, 'Add executable for')"
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Update clang format
+        run: |
+          ./build/windows/build-clang-format.bat
+
+  update-mac:
+    name: Update MacOS
+    runs-on: macos-latest
+    if: "!contains(github.event.head_commit.message, 'Add executable for')"
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Update clang format
+        run: |
+          ./build/mac/build-clang-format-mac.sh

@@ -2,7 +2,7 @@
 :: build statically linked executable
 
 :: enable VC environment. activates cmake, ninja
-call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64
+call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64 || call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64
 :: assume 7z is installed in standard path
 set PATH=C:\Program Files\7-Zip;%PATH%
 set SCRIPTDIR=%~dp0
