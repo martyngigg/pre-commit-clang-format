@@ -45,7 +45,7 @@ cmake ^
   -DCLANG_ENABLE_ARCMT=OFF ^
   -DPYTHON_EXECUTABLE=%PYTHONEXE% ^
   ../llvm/
-cmake --build --target clang-format --config Release
+cmake --build . --target clang-format --config Release
 copy /Y bin\clang-format.exe %SCRIPTDIR%..\..\bin
 
 goto:eof
