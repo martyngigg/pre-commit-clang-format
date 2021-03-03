@@ -5,6 +5,7 @@ on:
 
 jobs:
   update-linux:
+    name: Update Linux
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, 'Add executable for')"
     steps:
@@ -17,16 +18,20 @@ jobs:
           cd build/linux
           ./build-docker-linux.sh
 
-      - name: Commit build to branch
-        if: github.ref != 'refs/heads/master'
-        uses: ./.github/actions/commit-executables
+
+      - name: Git Auto Commit
+        uses: stefanzweifel/git-auto-commit-action@v4.9.1
         with:
-          token: ${{ secrets.BUILDER_SSH_KEY }}
+          commit_message: Add executable for Linux
+          commit_options: '--no-verify --signoff'
+          file_pattern: build/*
+          commit_user_name: mantid-builder
+          commit_user_email: mantid-builder@hosting.com
 
   update-windows:
+    needs: update-linux
     name: Update Windows
     runs-on: windows-2019
-    if: "!contains(github.event.head_commit.message, 'Add executable for')"
     steps:
       - uses: actions/checkout@v2
 
@@ -34,16 +39,19 @@ jobs:
         run: |
           ./build/windows/build-clang-format.bat
 
-      - name: Commit build to branch
-        if: github.ref != 'refs/heads/master'
-        uses: ./.github/actions/commit-executables
+      - name: Git Auto Commit
+        uses: stefanzweifel/git-auto-commit-action@v4.9.1
         with:
-          token: ${{ secrets.BUILDER_SSH_KEY }}
+          commit_message: Add executable for Windows
+          commit_options: '--no-verify --signoff'
+          file_pattern: build/*
+          commit_user_name: mantid-builder
+          commit_user_email: mantid-builder@hosting.com
 
   update-mac:
+    needs: update-windows
     name: Update MacOS
     runs-on: macos-latest
-    if: "!contains(github.event.head_commit.message, 'Add executable for')"
     steps:
       - uses: actions/checkout@v2
 
@@ -51,8 +59,11 @@ jobs:
         run: |
           ./build/mac/build-clang-format-mac.sh
 
-      - name: Commit build to branch
-        if: github.ref != 'refs/heads/master'
-        uses: ./.github/actions/commit-executables
+      - name: Git Auto Commit
+        uses: stefanzweifel/git-auto-commit-action@v4.9.1
         with:
-          token: ${{ secrets.BUILDER_SSH_KEY }}
+          commit_message: Add executable for MacOS
+          commit_options: '--no-verify --signoff'
+          file_pattern: build/*
+          commit_user_name: mantid-builder
+          commit_user_email: mantid-builder@hosting.com
