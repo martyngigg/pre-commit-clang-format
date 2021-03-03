@@ -20,6 +20,8 @@ jobs:
       - name: Commit build to branch
         if: github.ref != 'refs/heads/master'
         uses: ./.github/actions/commit-executables
+        with:
+          token: ${{ secrets.BUILDER_SSH_KEY }}
 
   update-windows:
     name: Update Windows
@@ -32,6 +34,12 @@ jobs:
         run: |
           ./build/windows/build-clang-format.bat
 
+      - name: Commit build to branch
+        if: github.ref != 'refs/heads/master'
+        uses: ./.github/actions/commit-executables
+        with:
+          token: ${{ secrets.BUILDER_SSH_KEY }}
+
   update-mac:
     name: Update MacOS
     runs-on: macos-latest
@@ -42,3 +50,9 @@ jobs:
       - name: Update clang format
         run: |
           ./build/mac/build-clang-format-mac.sh
+
+      - name: Commit build to branch
+        if: github.ref != 'refs/heads/master'
+        uses: ./.github/actions/commit-executables
+        with:
+          token: ${{ secrets.BUILDER_SSH_KEY }}

@@ -26,6 +26,7 @@ download_and_extract_xz ${CLANG_SRC_TGZ}
 popd
 
 # build
+brew install ninja
 cd llvm-build
 CC=clang CXX=clang++ cmake \
   -G Ninja \
