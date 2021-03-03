@@ -23,6 +23,13 @@ curl -L %LLVM_RELEASES_URL%/%CLANG_TGZ% -o %CLANG_TGZ%
 call:extract-tgz %CLANG_TGZ%
 move %CLANG_TGZ:~0,-7% clang
 
+:: Choose python directory
+if exist "C:\Program Files\Python37\python.exe" (
+  set PYTHONEXE="C:\Program Files\Python37\python.exe"
+) else (
+  set PYTHONEXE="C:\Program Files\Python38\python.exe"
+)
+
 :: build
 cd ..\..\llvm-build
 set CC=cl
@@ -37,7 +44,7 @@ cmake ^
   -DLIBCLANG_BUILD_STATIC=ON ^
   -DCLANG_ENABLE_STATIC_ANALYZER=OFF ^
   -DCLANG_ENABLE_ARCMT=OFF ^
-  -DPYTHON_EXECUTABLE="C:\Program Files\Python38\python.exe" ^
+  -DPYTHON_EXECUTABLE=%PYTHONEXE% ^
   ../llvm/
 ninja clang-format
 copy /Y bin\clang-format.exe %SCRIPTDIR%..\..\bin
