@@ -35,8 +35,7 @@ cd ..\..\llvm-build
 set CC=cl
 set CXX=cl
 cmake ^
-  -G Ninja ^
-  -DCMAKE_BUILD_TYPE=Release ^
+  -G "Visual Studio 16 2019" ^
   -DLLVM_USE_CRT_RELEASE=MT ^
   -DLLVM_ENABLE_ASSERTIONS=OFF ^
   -DLLVM_ENABLE_THREADS=OFF ^
@@ -46,7 +45,7 @@ cmake ^
   -DCLANG_ENABLE_ARCMT=OFF ^
   -DPYTHON_EXECUTABLE=%PYTHONEXE% ^
   ../llvm/
-ninja clang-format
+cmake --build --target clang-format --config Release
 copy /Y bin\clang-format.exe %SCRIPTDIR%..\..\bin
 
 goto:eof
